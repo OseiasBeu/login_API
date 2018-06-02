@@ -1,0 +1,25 @@
+npm init
+--------------------------------------------------------------------
+npm install express
+-framework que ajuda a fazer a tratativa de rotas e requests http
+--------------------------------------------------------------------
+npm install body-parser
+-Ajuda o node a entender as requisições recebendo as informações em json e também fazendo ocm que ele entenda os parâmetros enviados atravéz de URL (como se fossem parâmetros GET no http)
+--------------------------------------------------------------------
+npm install mongoose -y 
+-Pacote que o node utiliza para se conectar com o mongodb
+--------------------------------------------------------------------
+
+npm install  bcryptjs 
+-Garante a encripitação das senhas para que fiquem gravadas de forma encriptografadas no banco de dados
+
+{
+	
+"name":"Oseias",
+	
+"email":"beuoseias@gmail.com",
+	
+"password":"123435"
+	
+
+}
