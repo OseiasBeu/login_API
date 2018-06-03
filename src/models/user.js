@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
  password:{
      type: String,
      require: true,
-     select: false,
+     select: false, //select false indica que o campo password não vai ser exibido numa listagem de usuários
  },
  createAt:{
      type: Date,

@@ -4,14 +4,21 @@ npm install express
 -framework que ajuda a fazer a tratativa de rotas e requests http
 --------------------------------------------------------------------
 npm install body-parser
--Ajuda o node a entender as requisições recebendo as informações em json e também fazendo ocm que ele entenda os parâmetros enviados atravéz de URL (como se fossem parâmetros GET no http)
+-Ajuda o node a entender as requisiï¿½ï¿½es recebendo as informaï¿½ï¿½es em json e tambï¿½m fazendo ocm que ele entenda os parï¿½metros enviados atravï¿½z de URL (como se fossem parï¿½metros GET no http)
 --------------------------------------------------------------------
 npm install mongoose -y 
+yarn add mongoose
 -Pacote que o node utiliza para se conectar com o mongodb
 --------------------------------------------------------------------
 
 npm install  bcryptjs 
--Garante a encripitação das senhas para que fiquem gravadas de forma encriptografadas no banco de dados
+-Garante a encripitaï¿½ï¿½o das senhas para que fiquem gravadas de forma encriptografadas no banco de dados
+
+--------------------------------------------------------------------
+npm install jasonwebtoken
+yarn add jasonwebtoken
+
+-Para tokens de autenticaÃ§Ã£o/ pacote oficial do node para JWT
 
 {
 	

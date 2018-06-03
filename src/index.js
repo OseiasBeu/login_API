@@ -11,6 +11,7 @@ app.use(bodyParser.urlencoded({extended:false})); //Faz ele entender quando url 
 
 
 require('./controllers/authController')(app);
+require('./controllers/projectController')(app);
 //o app está sendo repassado porque ele é um objeto que é definido uma vez e precisamos utilizá-lo em todos os outros arquivos
 /*OBS.: Se criar outro app teríamos duas aplicações rodando na mesma plataforma do node */
 
