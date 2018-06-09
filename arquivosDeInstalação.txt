@@ -37,3 +37,8 @@ yarn add jasonwebtoken
 yarn add  fs path
  fs - Nos permite trabalhar com arquivos
  path - para poder trabalhar com caminhos de pastas
+
+-----------------------------------------------------------------------
+
+yarn add nodemailer-express-handlebars
+- nos permite trabalhar com tampletes de email - forma de preencher vari√veis em arquivos html
