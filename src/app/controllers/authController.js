@@ -7,13 +7,16 @@ const mailer = require('../../modules/mailer');
 const authConfig = require('../../config/auth');
 const router = express.Router();
 
-//Rota de registro de usuario
+//=====================================FUNÇÃO GERADORA DE TOKEN ========================================================================
 function gerarToken(params = {}){
     //função geradora de token, retorna um token a partir do MD5  
     return jwt.sign(params, authConfig.secret,{
         expiresIn: 86400, //Tempo de expiração de token 86400 segundos é equivalente a 1 dia
     });
 }
+//=====================================FIM DA FUNÇÃO ========================================================================
+
+//=====================================ROTA DE REGISTRO DE USUÁRIO ========================================================================
 router.post('/register', async  (req, res) => {
    //async para tratar promisses
     const {email} = req.body; 
@@ -39,7 +42,7 @@ router.post('/register', async  (req, res) => {
 
 //=====================================FIM DA ROTA DE REGISTRO ========================================================================
 
-//Rota de autenticação
+//=====================================ROTA DE AUTENTICAÇÃO ========================================================================
 router.post('/authenticate', async (req, res) =>{
     const {email,password} = req.body; //sempre recebo email e senha do usuário (ambos bem no corpo da requisição [req.body])
  
@@ -66,18 +69,16 @@ router.post('/authenticate', async (req, res) =>{
      BifeBaconOvoHojeAmanhã17082019*/
 
 
-    res.send({user, 
-        token: gerarToken({id: user.id}),
-    }); //Se as negações forem falsas, retornar usuário solicitado
+    res.send({user,token: gerarToken({id: user.id}),}); //Se as negações forem falsas, retornar usuário solicitado
 
 });
- 
+//===================================== FIM DA ROTA DE AUTENTICAÇÃO DE EMAIL ========================================================================
 
-//=====================================FIM DA ROTA DE RECUPERAÇÃO DE EMAIL ========================================================================
+//=====================================ROTA PARA ENVIO DE EMAIL PARA RECURERAÇÃO ========================================================================
 router.post('/forgot_password', async (req, res)=>{
     //recebe o email do usuário [qual email ao qual ele quer recuperar a senha]
     const {email } = req.body;
-try {
+ try {
     //Verifica se esse email realmente está cadastrado em nossa base de usuário
     const user = await  User.findOne({email});
     
@@ -114,14 +115,45 @@ try {
              return res.send('OK');
         }); 
          
-}catch(err){
+    }catch(err){
     res.status(400).send({ERRO: 'Erro na recuperação de senha, tente novamente!'})
     }
 });
+//=====================================FIM DA ROTA PARA ENVIO DE EMAIL PARA RECURERAÇÃO ========================================================================
 
-//fim
+//=====================================ROTA DE RECURERAÇÃO DE EMAIL ========================================================================
+router.post('/reset_password', async (req, res) =>{
+    console.log('pitStop 1');
+    const { email,token,password } = req.body;
+    console.log('pitStop 2');
+    console.log(req.body);
+    try{
+        // const user = await User.findOne({email})
+        // const user = await User.findOne({email}).select('+password');
+        const user = await User.findOne({email}).select('+passwordResetToken passwordResetExpires');
 
+        if(!user){
+            return res.status(400).send({ERRO:'Usuário não encontrado, tente novamente!'});
+        }
+        if(token !== user.passwordResetToken){
+            console.log(token);
+            console.log(user.passwordResetToken);
+            return res.status(400).send({ERRO: 'Token inválido, tente novamente!'});
+        }
+        if(now > user.passwordResetExpires){
+            return res.status(400).send({ERRO: 'Seu token expirou, gere um novo!' });
+        }
+        user.password = password;
 
+        await user.save();
+
+        user.send('OK');
+    }catch(err){
+        res.status(400).send({ERRO: 'Não é possível resetar email, tente novamente!'});
+    }
+
+});
+//===================================== FIM ROTA DE RECURERAÇÃO DE EMAIL ========================================================================
 
 
 

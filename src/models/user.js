@@ -1,6 +1,7 @@
 const mongoose = require('../bancodedados');
 const bcrypt = require('bcryptjs');
 
+console.log('Chegou no user.js');
 const UserSchema = new mongoose.Schema({
  name:{
      type: String,
