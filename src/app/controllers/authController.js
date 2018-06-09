@@ -123,45 +123,36 @@ router.post('/forgot_password', async (req, res)=>{
 
 //=====================================ROTA DE RECURERAÇÃO DE EMAIL ========================================================================
 router.post('/reset_password', async (req, res) =>{
-    console.log('pitStop 1');
+    // console.log('pitStop 1');
     const { email,token,password } = req.body;
-    console.log('pitStop 2');
-    console.log(req.body);
+    // console.log('pitStop 2');
+    // console.log(req.body);
     try{
-        // const user = await User.findOne({email})
-        // const user = await User.findOne({email}).select('+password');
         const user = await User.findOne({email}).select('+passwordResetToken passwordResetExpires');
+        
 
         if(!user){
             return res.status(400).send({ERRO:'Usuário não encontrado, tente novamente!'});
         }
         if(token !== user.passwordResetToken){
-            console.log(token);
-            console.log(user.passwordResetToken);
-            return res.status(400).send({ERRO: 'Token inválido, tente novamente!'});
+            return res.status(400).send({ERRO:'Token inválido, tente novamente!'});
         }
-        if(now > user.passwordResetExpires){
-            return res.status(400).send({ERRO: 'Seu token expirou, gere um novo!' });
+        if(now >= user.passwordResetExpires){
+            return res.status(400).send({ERRO:'Seu token expirou, gere um novo!' });
         }
+        
         user.password = password;
-
-        await user.save();
-
-        user.send('OK');
+        user.save();
+        res.send();
+        
     }catch(err){
+        
+        
         res.status(400).send({ERRO: 'Não é possível resetar email, tente novamente!'});
     }
 
 });
 //===================================== FIM ROTA DE RECURERAÇÃO DE EMAIL ========================================================================
-
-
-
-
-
-
-
-
 
 
 
