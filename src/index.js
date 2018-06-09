@@ -10,8 +10,8 @@ app.use(bodyParser.urlencoded({extended:false})); //Faz ele entender quando url 
 //res objeto que utilizamos para enviar algume resposta para o usuário quando acessar essa rota...
 
 
-require('./controllers/authController')(app);
-require('./controllers/projectController')(app);
+require('./controllers/index')(app);
+
 //o app está sendo repassado porque ele é um objeto que é definido uma vez e precisamos utilizá-lo em todos os outros arquivos
 /*OBS.: Se criar outro app teríamos duas aplicações rodando na mesma plataforma do node */
 

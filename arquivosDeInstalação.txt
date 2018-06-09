@@ -30,3 +30,10 @@ yarn add jasonwebtoken
 	
 
 }
+
+
+-----------------------------------------------------------------------
+
+yarn add  fs path
+ fs - Nos permite trabalhar com arquivos
+ path - para poder trabalhar com caminhos de pastas
