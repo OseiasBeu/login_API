@@ -1,13 +1,12 @@
 const express = require('express');
 const bcrypt = require ('bcryptjs');
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const User = require('../../models/user');
 const authConfig = require('../../config/auth');
 const router = express.Router();
 
 //Rota de registro de usuario
-
-
 function gerarToken(params = {}){
     //função geradora de token, retorna um token a partir do MD5  
     return jwt.sign(params, authConfig.secret,{
@@ -72,6 +71,39 @@ router.post('/authenticate', async (req, res) =>{
 
 });
  
+
+//=====================================FIM DA ROTA DE RECUPERAÇÃO DE EMAIL ========================================================================
+router.post('/forgot_password', async (req, res)=>{
+    //recebe o email do usuário [qual email ao qual ele quer recuperar a senha]
+    const {email } = req.body;
+try {
+    //Verifica se esse email realmente está cadastrado em nossa base de usuário
+    const user = await  User.findOne({email});
+    
+    if(!user){
+         //Se o usuário não foi encontrado retorna a informação de erro
+         return res.status(400).send({ERRO:'Usuário não encontrado'});
+    }
+        //  preciso gerar um token que só funcione para esse usuário
+        const token = crypto.randomBytes(20).toString('hex');
+        
+        //Data que vai conter o tempo de expiração
+        const now = new Date();
+        now.setHours(now.getHours() + 1);
+
+        //Altera usuário que acabamos de gerar o token
+        await User.findByIdAndUpdate(user.id,{
+            '$set': {  //Quais campos você deseja setar
+                passwordResetToken: token,
+                passwordResetExpires: now,
+            }
+        });
+        console.log(token, now);  
+         
+}catch(err){
+    res.status(400).send({ERRO: 'Erro na recuperação de senha, tente novamente!'})
+    }
+});
 
 
 
