@@ -129,7 +129,7 @@ router.post('/reset_password', async (req, res) =>{
     // console.log(req.body);
     try{
         const user = await User.findOne({email}).select('+passwordResetToken passwordResetExpires');
-        
+        console.log(user);
 
         if(!user){
             return res.status(400).send({ERRO:'Usuário não encontrado, tente novamente!'});
@@ -137,17 +137,16 @@ router.post('/reset_password', async (req, res) =>{
         if(token !== user.passwordResetToken){
             return res.status(400).send({ERRO:'Token inválido, tente novamente!'});
         }
-        if(now >= user.passwordResetExpires){
-            return res.status(400).send({ERRO:'Seu token expirou, gere um novo!' });
+        const now = new Date();
+        if(now.getHours > user.passwordResetExpires){
+            return res.status(400).send({ERRO:'Seu token expirou, gere um novo!'});
         }
         
         user.password = password;
         user.save();
         res.send();
         
-    }catch(err){
-        
-        
+    }catch(err){       
         res.status(400).send({ERRO: 'Não é possível resetar email, tente novamente!'});
     }
 
