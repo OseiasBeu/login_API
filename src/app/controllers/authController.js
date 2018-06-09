@@ -3,6 +3,7 @@ const bcrypt = require ('bcryptjs');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const User = require('../../models/user');
+const mailer = require('../../modules/mailer');
 const authConfig = require('../../config/auth');
 const router = express.Router();
 
@@ -86,7 +87,7 @@ try {
     }
         //  preciso gerar um token que só funcione para esse usuário
         const token = crypto.randomBytes(20).toString('hex');
-        
+
         //Data que vai conter o tempo de expiração
         const now = new Date();
         now.setHours(now.getHours() + 1);
@@ -98,7 +99,20 @@ try {
                 passwordResetExpires: now,
             }
         });
-        console.log(token, now);  
+
+        //Email a ser enviado para recuperação de senha
+        mailer.sendMail({
+            to: email, //para qual email devo enviar
+            from: 'oseiasbeu@outlook.com', //de quem será enviado
+            template: 'auth/forgot_password', //template
+            context: {token}, //valor a ser repassado para a variável que está dentro do forgot_passoword
+        }, (err) =>{ //callback de erro
+            if(err){
+                return res.status(400).send({ERRO: 'Não é possível enviar o email de recuperação de senha!'})
+            }
+
+             return res.send('OK');
+        }); 
          
 }catch(err){
     res.status(400).send({ERRO: 'Erro na recuperação de senha, tente novamente!'})

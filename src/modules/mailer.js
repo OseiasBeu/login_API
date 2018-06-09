@@ -13,7 +13,7 @@ const transport = nodemailer.createTransport({
 // configuração do Handlebars
 transport.use('compile', hbs({
   viewEngine: 'handlebars',
-  viewPath: path.resolve('./src/resources/mail/'), //onde vão ficar as views de templates de emails 
+  viewPath: path.resolve('./resources/mail/'), //onde vão ficar as views de templates de emails 
   extName: '.html', //tipo da extensão do arquivo
 })); 
 
