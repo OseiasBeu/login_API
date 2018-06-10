@@ -26,16 +26,6 @@ description:{
  }
 });
 
-
-
-//pre - função do mongoose para que uma ação seja executada antes de ser salva
-ProjectSchema.pre('save', async function(next){
-    const hash = await bcrypt.hash(this.password, 10); // número 10 é o número de vezes que o hash será passado para a encriptação - torna o hash mais forte
-    this.password = hash;   //se refere ao objeto que está sendo salvo ( ProjectSchema)
-
-    next();
-})
-
 const Project = mongoose.model('Project', ProjectSchema);
 
 module.exports = Project; 
