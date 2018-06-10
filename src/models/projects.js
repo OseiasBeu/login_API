@@ -3,11 +3,11 @@ const bcrypt = require('bcryptjs');
 
 console.log('Chegou no Project.js');
 const ProjectSchema = new mongoose.Schema({
- title:{
+title:{
      type: String,
      require: true,
- },
- description:{
+    },
+description:{
    type: String,
    require: true,
  },
@@ -23,8 +23,10 @@ const ProjectSchema = new mongoose.Schema({
  createAt:{
      type: Date,
      default: Date.now,
- },
+ }
 });
+
+
 
 //pre - função do mongoose para que uma ação seja executada antes de ser salva
 ProjectSchema.pre('save', async function(next){

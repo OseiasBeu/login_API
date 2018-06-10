@@ -7,16 +7,39 @@ const router = express.Router();
 
 router.use(authMiddleware);
 
-router.get('/',(req,res)=>{
-    res.send({ok: true, user: req.userId});
+router.get('/', async (req,res)=>{
+   try{
+       const projects = await Project.find().populate('user');
+
+       return res.send({projects});
+
+   }catch(err){
+       return res.status(400).send({ERRO: "Erro para carregar os projetos"});
+   }
 });
 
 router.get('/:projectId', async (req, res)=>{
-    res.send({user: req.userId});
+    router.get('/', async (req,res)=>{
+        try{
+            const project = await Project.findById(req.params.projectId).populate('user');
+     
+            return res.send({project});
+     
+        }catch(err){
+            return res.status(400).send({ERRO: "Erro para carregar o projeto"});
+        }
 });
 
 router.post('/', async (req, res)=>{
-    res.send({user: req.userId});
+    try{
+        const project = await  Project.create({ ...req.body, user: userId });      
+
+         return res.send({project});
+
+    }catch(err){
+        return  res.status(400).send({ERRO:"Erro na criação de um novo projeto"});
+    }
+    
 });
 
 router.put('/:projectId', async (req, res)=>{
