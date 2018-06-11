@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const authConfig = require('../../config/auth.json');
 
+console.log('Chegou nos middlewares');
 module.exports = (req,res, next) => {
     //next - chamado somente se o usuário está pronto para o próximo passo (controller)
 

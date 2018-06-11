@@ -3,6 +3,8 @@ const path = require('path');
 const {host, port, user,pass}= require('../config/mail.json');
 const hbs = require('nodemailer-express-handlebars');
 
+console.log('Chegou no módulo mailer.js');
+
 const transport = nodemailer.createTransport({
   host,
   port,

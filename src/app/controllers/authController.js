@@ -7,6 +7,7 @@ const mailer = require('../../modules/mailer');
 const authConfig = require('../../config/auth');
 const router = express.Router();
 
+console.log('Chegou no authController.js');
 //=====================================FUNÇÃO GERADORA DE TOKEN ========================================================================
 function gerarToken(params = {}){
     //função geradora de token, retorna um token a partir do MD5  

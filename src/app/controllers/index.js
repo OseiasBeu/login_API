@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 
+console.log('Chegou nas exportações dos controllers');
 module.exports = app => {
   fs
     .readdirSync(__dirname) //ler diretório dirname [que estamos operando no index.js]

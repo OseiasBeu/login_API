@@ -1,7 +1,7 @@
 const mongoose = require('../bancodedados');
 const bcrypt = require('bcryptjs');
 
-console.log('Chegou no Task.js');
+console.log('Chegou no model Task.js');
 const TaskSchema = new mongoose.Schema({
  title:{
      type: String,

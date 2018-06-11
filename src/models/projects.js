@@ -1,7 +1,7 @@
 const mongoose = require('../bancodedados');
 const bcrypt = require('bcryptjs');
 
-console.log('Chegou no Project.js');
+console.log('Chegou no model Project.js');
 const ProjectSchema = new mongoose.Schema({
 title:{
      type: String,
